@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Advanced listeners</title>
+	<link rel="stylesheet" type="text/css" href="css/index.css"></link>
+	<link rel="stylesheet" type="text/css" href="css/tableBalance.css"></link>
+  <link rel="stylesheet" type="text/css" href="css/tableStatement.css"></link>
+	<link rel="stylesheet" type="text/css" href="css/infoButtons.css"></link>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  
+  </head>
+  <body>
+    <div id="container">
+      <div id="header">
+  
+        <div id="nav">
+          <ul>
+            <li><a href="singUp.html">New Accounting</a></li>
+            <li><a href="#">Aiuto Bilancio</a></li>
+            <li><a href="#">Aiuto Conto Economico</a></li>
+          </ul>
+        </div>
+      </div>
+      <div id="content">
+  
+        <div class="dataSingIn alert">
+          Company Name: <h4><span id="resultName"></span></h4>
+        </div>
+        <div class="dataSingIn alert">
+          Start Date: <h4><span id="resultStart"></span></h4>
+        </div>
+        <div class="dataSingIn alert">
+          End Date: <h4><span id="resultEnd"></span></h4>
+        </div>
+  
+        <h1>Bilancio</h1>
+  
+        <div id="info-container" style="overflow-x:auto;">
+          <table class="tg" style="undefined:auto;table-layout: fixed;
+              width: 750px">
+            <colgroup>
+              <col style="width: 30px">
+              <col style="width: 180px">
+              <col style="width: 100px">
+              <col style="width: 160px">
+              <col style="width: 160px">
+            </colgroup>
+            <thead>
+              <tr>
+                <th class="tg-yk6t" colspan="2">Description</th>
+                <th class="tg-ej4p">Repeat</th>
+                <th class="tg-ej4p">Date</th>
+                <th class="tg-ej4p">Import</th>
+              </tr>
+            </thead>
+            <tbody>
+  
+              <tr>
+                <td class="tg-joz3" colspan="5">ATTIVI</td>
+              </tr>
+              <tr>
+                <td class="tg-iykl" colspan="5">
+                  <div class="infoReadButton liquid"></div>
+                  Liquidità
+                  <div class="infoShowButton"></div>
+                  
+                  <div class="insertValueSpace" style="display:none">
+                    <select type="text" class="boxesLarge" id="repeatLiquid" onkeypress="return add_number(event)" style="float: left;">
+                      <option value="" disabled selected>Choose</option>
+                      <option value="D">giornaliero</option>
+                      <option value="W">settimanale</option>
+                      <option value="M">mensile</option>
+                      <option value="3M">trimestrale</option>
+                      <option value="2M">semestrale</option>
+                      <option value="Y">annuale</option>
+                    </select>
+                  
+                    <input type="date" id="dateLiquid" class="boxesLarge" style="position: absolute; left: 52%;">
+                  
+                    <input type="text" name="import" id="importLiquid" class="boxesLarge" style="float: right;" />
+                      <!--<span class="frSpan"> Fr.-</span>-->
+                  </div>
+                  <p style="display:none">è l'importo totale che la tua
+                    azienda ha nel suo conto bancario, postale e di cassa.</p>
+                </td>
+              </tr>
+  
+              <tr>
+                <td class="tg-iykl" colspan="5">
+                  <div class="infoReadButton investment"></div>
+                  Investimenti
+                  <div class="infoShowButton"></div>
+                  <div class="insertValueSpace" style="display:none">
+                    <select type="text" class="boxesLarge" id="repeatInvestment" onkeypress="return add_number(event)" style="float: left;">
+                      <option value="" disabled selected>Choose</option>
+                      <option value="D">giornaliero</option>
+                      <option value="W">settimanale</option>
+                      <option value="M">mensile</option>
+                      <option value="3M">trimestrale</option>
+                      <option value="2M">semestrale</option>
+                      <option value="Y">annuale</option>
+                    </select>
+                  
+                    <input type="date" id="dateInvestment" class="boxesLarge" style="position: absolute; left: 52%;">
+                  
+                    <input type="text" name="import" id="importInvestment" class="boxesLarge" style="float: right;" />
+                      <!--<span class="frSpan"> Fr.-</span>-->
+                  </div>
+                  <p style="display:none">è l'importo totale che la tua
+                    azienda ha nel suo conto bancario, postale e di cassa.</p>
+                </td>
+              </tr>
+  
+              <tr>
+                <td class="tg-iykl" colspan="5">
+                  <div class="infoReadButton credit"></div>
+                  Crediti FP e Clienti
+                  <div class="infoShowButton"></div>
+              
+                  <div class="insertValueSpace" style="display:none">
+                    <select type="text" class="boxesLarge" id="repeatCredit" onkeypress="return add_number(event)"
+                      style="float: left;">
+                      <option value="" disabled selected>Choose</option>
+                      <option value="D">giornaliero</option>
+                      <option value="W">settimanale</option>
+                      <option value="M">mensile</option>
+                      <option value="3M">trimestrale</option>
+                      <option value="2M">semestrale</option>
+                      <option value="Y">annuale</option>
+                    </select>
+              
+                    <input type="date" id="dateCredit" class="boxesLarge" style="position: absolute; left: 52%;">
+              
+                    <input type="text" name="import" id="importCredit" class="boxesLarge" style="float: right;" />
+                    <!--<span class="frSpan"> Fr.-</span>-->
+                  </div>
+                  <p style="display:none">è l'importo totale che la tua
+                    azienda ha nel suo conto bancario, postale e di cassa.</p>
+                </td>
+              </tr>
+              <tr>
+                <td class="tg-iykl" colspan="2">
+                  <div class="infoReadButton"></div>
+                  RRA
+                  <div class="infoShowButton"></div>
+                  <p style="display:none">Inserire qui di seguito la spiegazione dell'arogmento.</p>
+                </td>
+                <td class="tg-p170"></td>
+                <td class="tg-p170"></td>
+                <td class="tg-8q01"></td>
+              </tr>
+              <tr>
+                <td class="tg-a4q8" colspan="4">TOTALE ATTIVO CIRCOLANTE</td>
+                <td class="tg-8q01"></td>
+              </tr>
+              <tr>
+                <td class="tg-iykl" colspan="2">
+                  <div class="infoReadButton"></div>
+                  Terreni
+                  <div class="infoShowButton"></div>
+                  <p style="display:none">Inserire qui di seguito la spiegazione dell'arogmento.</p>
+                </td>
+                <td class="tg-p170"></td>
+                <td class="tg-p170"></td>
+                <td class="tg-8q01"></td>
+              </tr>
+              <tr>
+                <td class="tg-iykl" colspan="2">
+                  <div class="infoReadButton"></div>
+                  Immobili
+                  <div class="infoShowButton"></div>
+                  <p style="display:none">Inserire qui di seguito la spiegazione dell'arogmento.</p>
+                </td>
+                <td class="tg-p170"></td>
+                <td class="tg-p170"></td>
+                <td class="tg-8q01"></td>
+              </tr>
+              <tr>
+                <td class="tg-iykl" colspan="2">
+                  <div class="infoReadButton"></div>
+                  Mobili e Attrezzature
+                  <div class="infoShowButton"></div>
+                  <p style="display:none">Inserire qui di seguito la spiegazione dell'arogmento.</p>
+                </td>
+                <td class="tg-p170"></td>
+                <td class="tg-p170"></td>
+                <td class="tg-8q01"></td>
+              </tr>
+              <tr>
+                <td class="tg-a4q8" colspan="4">TOTALE ATTIVO FISSO</td>
+                <td class="tg-8q01"></td>
+              </tr>
+              <tr>
+                <td class="tg-6m4l" colspan="4">TOTALE ATTIVO </td>
+                <td class="tg-jxwj"></td>
+              </tr>
+              <tr>
+                <td class="tg-zv4m" colspan="5"></td>
+              </tr>
+              <tr>
+                <td class="tg-wghx" colspan="5">PASSIVI</td>
+              </tr>
+              <tr>
+                <td class="tg-iykl" colspan="2">Debiti a breve termine</td>
+                <td class="tg-p170"></td>
+                <td class="tg-p170"></td>
+                <td class="tg-8q01"></td>
+              </tr>
+              <tr>
+                <td class="tg-iykl" colspan="2">Debiti FP</td>
+                <td class="tg-p170"></td>
+                <td class="tg-p170"></td>
+                <td class="tg-ln5j"></td>
+              </tr>
+              <tr>
+                <td class="tg-iykl" colspan="2">Imposte</td>
+                <td class="tg-p170"></td>
+                <td class="tg-p170"></td>
+                <td class="tg-8q01"></td>
+              </tr>
+              <tr>
+                <td class="tg-a4q8" colspan="4">TOTALE PASSIVI A BREVE TERMINE</td>
+                <td class="tg-8q01"></td>
+              </tr>
+              <tr>
+                <td class="tg-iykl" colspan="2">Debiti a lungo termine</td>
+                <td class="tg-p170"></td>
+                <td class="tg-p170"></td>
+                <td class="tg-8q01"></td>
+              </tr>
+              <tr>
+                <td class="tg-iykl" colspan="2">Prestiti azionisti</td>
+                <td class="tg-p170"></td>
+                <td class="tg-p170"></td>
+                <td class="tg-8q01"></td>
+              </tr>
+              <tr>
+                <td class="tg-a4q8" colspan="4">TOTALE PASSIVI A LUNGO TERMINE</td>
+                <td class="tg-8q01"></td>
+              </tr>
+              <tr>
+                <td class="tg-iykl" colspan="2">Capitale Proprio</td>
+                <td class="tg-p170"></td>
+                <td class="tg-p170"></td>
+                <td class="tg-8q01"></td>
+              </tr>
+              <tr>
+                <td class="tg-qyoc" colspan="4">TOTALE PASSIVI</td>
+                <td class="tg-e81b"></td>
+              </tr>
+              <tr>
+                <td class="tg-u18r" colspan="5"></td>
+              </tr>
+            </tbody>
+          </table>
+  
+        </div>
+        <p></p>
+        </br>
+        <h1>Conto Economico</h1>
+        <div id="info-container" style="overflow-x:auto;">
+          <table class="tg" style="undefined:auto;table-layout: fixed;
+              width: 750px">
+            <colgroup>
+              <col style="width: 30px">
+              <col style="width: 180px">
+              <col style="width: 100px">
+              <col style="width: 160px">
+              <col style="width: 160px">
+            </colgroup>
+            <thead>
+              <tr>
+                <th class="tg-htuz" colspan="2">Description</th>
+                <th class="tg-9dh5">Repeat</th>
+                <th class="tg-9dh5">Date</th>
+                <th class="tg-9dh5">Import</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="tg-joz3" colspan="5">RICAVI VENDITE</td>
+              </tr>
+              <tr>
+                <td class="tg-8y63" colspan="4">Saldo d'apertura merci</td>
+                <td class="tg-8q01"></td>
+              </tr>
+              <tr>
+                <td class="tg-8y63" colspan="4">Saldo finale merce</td>
+                <!--<td class="tg-p170" colspan="2"><input id="dateOpen"></input></td>
+                  si è provato a far comparire la data di fine all'interno della tabella-->
+                <td class="tg-8q01"></td>
+              </tr>
+              <tr>
+                <td class="tg-8y63" colspan="2">Acquisti per materie prime</td>
+                <td class="tg-p170"></td>
+                <td class="tg-p170"></td>
+                <td class="tg-8q01"></td>
+              </tr>
+              <tr>
+                <td class="tg-8y63" colspan="2">Costo merce</td>
+                <td class="tg-p170"></td>
+                <td class="tg-p170"></td>
+                <td class="tg-8q01"></td>
+              </tr>
+              <tr>
+                <td class="tg-tncv" colspan="4">TOTALE COSTI VARIABILI </td>
+                <td class="tg-8q01"></td>
+              </tr>
+              <tr>
+                <td class="tg-9x9m" colspan="2">Ricavi da vendite</td>
+                <td class="tg-p170"></td>
+                <td class="tg-p170"></td>
+                <td class="tg-8q01"></td>
+              </tr>
+              <tr>
+                <td class="tg-6m4l" colspan="4">UTILE/PERDITA LORDO </td>
+                <td class="tg-jxwj"></td>
+              </tr>
+              <tr>
+                <td class="tg-ly6r" colspan="5"></td>
+              </tr>
+              <tr>
+                <td class="tg-wghx" colspan="5">COSTI VENDITE</td>
+              </tr>
+              <tr>
+                <td class="tg-iykl" colspan="2">Stipendio proprietario</td>
+                <td class="tg-p170"></td>
+                <td class="tg-p170"></td>
+                <td class="tg-8q01"></td>
+              </tr>
+              <tr>
+                <td class="tg-iykl" colspan="2">Salari</td>
+                <td class="tg-p170"></td>
+                <td class="tg-p170"></td>
+                <td class="tg-ln5j"></td>
+              </tr>
+              <tr>
+                <td class="tg-iykl" colspan="2">Spese legali varie</td>
+                <td class="tg-p170"></td>
+                <td class="tg-p170"></td>
+                <td class="tg-8q01"></td>
+              </tr>
+              <tr>
+                <td class="tg-o5f3" colspan="2">Pubblicità e promozioni</td>
+                <td class="tg-kftd"></td>
+                <td class="tg-kftd"></td>
+                <td class="tg-kftd"></td>
+              </tr>
+              <tr>
+                <td class="tg-o5f3" colspan="2">Automobili </td>
+                <td class="tg-o5f3"></td>
+                <td class="tg-o5f3"></td>
+                <td class="tg-o5f3"></td>
+              </tr>
+              <tr>
+                <td class="tg-o5f3" colspan="2">Crediti inesigibili</td>
+                <td class="tg-o5f3"></td>
+                <td class="tg-o5f3"></td>
+                <td class="tg-o5f3"></td>
+              </tr>
+              <tr>
+                <td class="tg-o5f3" colspan="2">Tasse aziendali, commissioni e licenze</td>
+                <td class="tg-o5f3"></td>
+                <td class="tg-o5f3"></td>
+                <td class="tg-o5f3"></td>
+              </tr>
+              <tr>
+                <td class="tg-o5f3" colspan="2">Affitto</td>
+                <td class="tg-o5f3"></td>
+                <td class="tg-o5f3"></td>
+                <td class="tg-o5f3"></td>
+              </tr>
+              <tr>
+                <td class="tg-o5f3" colspan="2">Altre spese d'ufficio</td>
+                <td class="tg-p170"></td>
+                <td class="tg-p170"></td>
+                <td class="tg-8q01"></td>
+              </tr>
+              <tr>
+                <td class="tg-iykl" colspan="2">Costi utenza</td>
+                <td class="tg-p170"></td>
+                <td class="tg-p170"></td>
+                <td class="tg-8q01"></td>
+              </tr>
+              <tr>
+                <td class="tg-iykl" colspan="2">Assicurazioni</td>
+                <td class="tg-p170"></td>
+                <td class="tg-p170"></td>
+                <td class="tg-8q01"></td>
+              </tr>
+              <tr>
+                <td class="tg-o5f3" colspan="2">Spese Bancarie</td>
+                <td class="tg-o5f3"></td>
+                <td class="tg-o5f3"></td>
+                <td class="tg-o5f3"></td>
+              </tr>
+              <tr>
+                <td class="tg-o5f3" colspan="2">Deprezzamenti e ammortamenti</td>
+                <td class="tg-o5f3"></td>
+                <td class="tg-o5f3"></td>
+                <td class="tg-o5f3"></td>
+              </tr>
+              <tr>
+                <td class="tg-a4q8" colspan="4">TOTALE COSTI FISSI</td>
+                <td class="tg-8q01"></td>
+              </tr>
+              <tr>
+                <td class="tg-qyoc" colspan="4">UTILE/PERDITA NETTO</td>
+                <td class="tg-e81b"></td>
+              </tr>
+              <tr>
+                <td class="tg-u18r" colspan="5"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+  
+        <button type="submit" class="submitTable" id="submitTable" onclick="sendJsonData()">submit</button>
+  
+        <p></p>
+      </div>
+      <div></div>
+      <div id="footer">Banana Contabilità | <a href="https://www.banana.ch/en/download" target="_blank">Guarda il nostro
+          sito</a></div>
+  
+    </div>
+  </body>
+  <script src="js/jsonGenerator.js"></script>
+  <script src="js/indexLibrary.js"></script>
+</html>

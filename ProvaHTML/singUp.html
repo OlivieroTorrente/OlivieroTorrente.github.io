@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">   
+    <link rel="preconnect" href="https://fonts.gstatic.com">     
+    
+  </head>
+  <body>   
+    <img src="../ProvaHTML/media/logo.png"width="450" height="230" class="info_img" id="logoImg">
+    
+    <br>
+    <button onclick="tryNowFunction()" style="width:auto;" class="styled" type="button" id="tryNowBut">Try NOW</button>
+    
+
+
+    <div id="id01" class="modal" onclick="">
+      
+      <form class="modal-content" action="index.html" id="formElem" method="POST">
+        <div class="container">
+          <h1>Financial Plan Writer</h1>
+          <p>Insert the first data for accounting analysis.</p>
+          <hr>
+                   
+          <div class="form-group">
+            <label for="text"><b>Business category</b></label>
+            <select class="custom-select" required="required">
+              <option selected>Select one</option>
+              <option value="1">Impresa</option>
+              <option value="2">Privato</option>
+              <option value="3">Negozio</option>
+            </select>
+          </div>
+          
+          <label for="psw"><b>Business name</b></label>
+          <input type="text" placeholder="Insert company name" name="psw" id="CompanyName" required>
+
+          <label for="psw"><b>Start date</b></label>          
+          <input type="date" name="psw" id="start" class="dataSet" required="required"  style="color:rgb(0, 0, 0)">
+        
+
+          <label for="psw"><b>End date</b></label>          
+          <input type="date" name="psw" id="end" class="dataSet" required="required"  style="color:rgb(0, 0, 0)" >
+        
+          <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
+
+          <div class="clearfix" >
+            <button type="button" onclick="cancelButtonFunction()" class="cancelbtn">Cancel</button>
+            <button  type="submit" class="signupbtn" onclick="fuctonSaveDateButton()">New Accounting</button>
+          </div>
+          
+        </div>
+      </form>
+      <!--<img src="../provaHTML/media/footerBackground.png"  class="onde-footer">-->
+      
+    </div>
+    <div id="footer"></a></div>
+  </body>
+  <!--è stato caricato il file js in fondo per permettergli di caricare i valori che vengono inseriti nella tabella -->
+  <script type="text/javascript" src="js/singUpLibrary.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/singUp.css" />
+</html>
+

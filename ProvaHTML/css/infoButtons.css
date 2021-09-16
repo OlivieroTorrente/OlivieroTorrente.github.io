@@ -1,0 +1,62 @@
+.info {
+	margin			: 10px 0;
+	padding			: 10px;
+	border			: 1px solid #999;
+	background-color: #bbb;
+	font-size		: .8em;
+	border-radius	: 5px;
+	min-height		: 20px;
+	}
+
+
+
+.infoRead {
+	margin			: 10px 0;
+	padding			: 10px;
+	border			: 1px solid #999;
+	background		: #ddd url('../media/infoCheck.png') 30% 3px no-repeat;
+	font-size		: .8em;
+	border-radius	: 5px;
+}
+
+div.infoUnreadButton {
+	background		: #000 url('../media/uncheck.gif') 0 0 no-repeat;
+	
+}
+
+.infoReadButton {
+	margin			: 0 2px;
+	padding			: 3px;
+	width			: 10px;
+	height			: 10px;
+	border			: 1px solid #999;
+	background		: #000 url('../media/check.png') 0 0 no-repeat;
+	color			: white;
+	font-size		: .8em;
+	border-radius	: 5px;
+	float			: left;
+}
+
+.infoShowButton {
+	margin			: 0 2px;
+	padding			: 3px;
+	width			: 10px;
+	height			: 10px;
+	border			: 1px solid #999;
+	background		: #000 url('../media/infoClosed.png') 0 0 no-repeat;
+	color			: white;
+	font-size		: .8em;
+	border-radius	: 5px;
+	float: left;
+}
+
+div.infoHideButton {
+	background		: #000 url('../media/infoOpen.jpg') 0 0 no-repeat;
+	color			: white;
+	font-size		: .8em;
+	border-radius	: 5px;
+	float			: left;
+}
+
+
+		

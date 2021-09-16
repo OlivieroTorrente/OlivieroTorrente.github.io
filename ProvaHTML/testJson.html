@@ -1,0 +1,723 @@
+<html>
+
+
+
+<head>
+
+    <title>test</title>
+
+</head>
+
+
+
+<body>
+
+    <form id="formElem">
+
+        <input type="text" name="firstname" value="">
+
+        <input type="text" name="lastname" value="">
+
+        <input type="submit">
+
+    </form>
+
+    <div id="decoded"></div>
+
+    <button id="encode">Encode</button>
+
+    <div id="encoded"></div>
+
+    <p>Liquidity: <span id="liquidity"></span></p>
+
+</body>
+
+<script>
+
+        // class BananaRequestBody {
+
+        //     constructor() {
+
+        //         this.bodyData = {
+
+        //             "fileType": {
+
+        //                 "accountingType": {
+
+        //                     "docGroup": 100,
+
+        //                     "docApp": 100,
+
+        //                     "decimals": 2
+
+        //                 }
+
+        //             },
+
+        //             "data": {
+
+        //                 "format": "documentchange",
+
+        //                 "error": "",
+
+        //                 "data": [
+
+        //                     // document change data is inserted afterwards
+
+        //                 ]
+
+        //             },
+
+        //             "command": {
+
+        //                 "language": "js",
+
+        //                 "code": "", // code is inserted afterwards
+
+        //                 "content-type": "application/json"
+
+        //             }
+
+        //         }
+
+        //     }
+
+
+
+        //     setStartDate(date) {
+
+        //         this.bodyData.data[0].document.dataUnits[0].data.rowLists[0].rows.push(
+
+        //             {
+
+        //                 "fields": {
+
+        //                     "SectionXml": "AccountingDataBase",
+
+        //                     "IdXml": "OpeningDate",
+
+        //                     "ValueXml": "20210101"
+
+        //                 },
+
+        //                 "operation": {
+
+        //                     "name": "modify"
+
+        //                 }
+
+        //             }
+
+        //         );
+
+        //     }
+
+        // }
+
+    
+
+        function setAccountingInfo(bodyData, buisnessName, startDate, endDate) {
+
+            // Set accounting info
+
+            let accountingInfoDocChange = {
+
+                "document": {
+
+                    "fileVersion": "1.0.0",
+
+                    "creator": {
+
+                        "name": "FinancialPlaWriter",
+
+                        "version": "1.0.0"
+
+                    },
+
+                    "dataUnits": [
+
+                        {
+
+                            "nameXml": "FileInfo",
+
+                            "data": {
+
+                                "rowLists": [
+
+                                    {
+
+                                        "rows": [
+
+                                            // defined aftewards
+
+                                        ]
+
+                                    }
+
+                                ]
+
+                            }
+
+                        }
+
+                    ]
+
+                }
+
+            };
+
+
+
+            // Define accounting's header
+
+            // See https://www.banana.ch/doc/en/node/9641#properties_of_dataunits
+
+            accountingInfoDocChange.document.dataUnits[0].data.rowLists[0].rows.push(
+
+                {
+
+                    "fields": {
+
+                        "SectionXml": "Base",
+
+                        "IdXml": "HeaderLeft",
+
+                        "ValueXml": buisnessName
+
+                    },
+
+                    "operation": {
+
+                        "name": "modify"
+
+                    }
+
+                }
+
+            );
+
+
+
+            // Define accounting's start date
+
+            accountingInfoDocChange.document.dataUnits[0].data.rowLists[0].rows.push(
+
+                {
+
+                    "fields": {
+
+                        "SectionXml": "AccountingDataBase",
+
+                        "IdXml": "OpeningDate",
+
+                        "ValueXml": startDate
+
+                    },
+
+                    "operation": {
+
+                        "name": "modify"
+
+                    }
+
+                }
+
+            );
+
+
+
+            // Define accounting's end date
+
+            accountingInfoDocChange.document.dataUnits[0].data.rowLists[0].rows.push(
+
+                {
+
+                    "fields": {
+
+                        "SectionXml": "AccountingDataBase",
+
+                        "IdXml": "ClosureDate",
+
+                        "ValueXml": endDate
+
+                    },
+
+                    "operation": {
+
+                        "name": "modify"
+
+                    }
+
+                }
+
+            );
+
+
+
+            bodyData.data.data.push(accountingInfoDocChange);
+
+        }
+
+
+
+    encode.onclick = async (e) => {
+
+        let response = await fetch('http://localhost:8081/v1/doc', {
+
+            method: 'GET',
+
+            headers: {
+
+                'Content-Type': 'application/json',
+
+            },
+
+        })
+
+
+
+        let text = await response.text(); // read response body as text
+
+        data = JSON.parse(text);
+
+        //document.querySelector("#encoded").innerHTML = text;
+
+        document.querySelector("#encoded").innerHTML = `First name = ${data.firstname} <br/> 
+
+                                                        Last name = ${data.lastname} <br/>
+
+                                                        Age    = ${data.age}`
+
+    };
+
+
+
+    // Esempio di fare la chiamata alla modifica del campo firstname
+
+    // var firstNameInput = document.querySelector("#formElem").querySelector('input[name="firstname"]')
+
+    // firstNameInput.oninput = async (e) => {
+
+    //     e.preventDefault();
+
+
+
+    formElem.onsubmit = async (e) => {
+
+        e.preventDefault();
+
+        var form = document.querySelector("#formElem");
+
+        // var form = document.forms[0];
+
+
+
+        // Data to be sent
+
+
+
+        // Documentation:
+
+        // - bodyData: http request POST "/v1/doc" see https://github.com/BananaInternal/financial-forecast-data-entry/blob/main/doc/banana-api.md
+
+        // - bodyData.data: see documenthchange documentation https://www.banana.ch/doc/en/node/9641
+
+        // - bodyData.command.code: see https://www.banana.ch/doc/en/node/4714
+
+
+
+        // Define initial structure of body data
+
+        // See https://github.com/BananaInternal/financial-forecast-data-entry/blob/main/doc/banana-api.md
+
+        let bodyData = {
+
+            "fileType": {
+
+                "accountingType": {
+
+                    "docGroup": 100,
+
+                    "docApp": 100,
+
+                    "decimals": 2
+
+                }
+
+            },
+
+            "data": {
+
+                "format": "documentchange",
+
+                "error": "",
+
+                "data": [
+
+                    // document change data is inserted afterwards
+
+                ]
+
+            },
+
+            "command": {
+
+                "language": "js",
+
+                "code": "", // code is inserted afterwards
+
+                "content-type": "application/json"
+
+            }
+
+        };
+
+
+
+        // Define document change data --> bodyData.data.data
+
+        // See https://www.banana.ch/doc/en/node/9641
+
+        let documentChange = {
+
+            "format": "documentchange",
+
+            "error": "",
+
+            "data": [
+
+                // document change data is inserted afterwards
+
+            ]
+
+        };
+
+        bodyData.data = documentChange;
+
+
+
+        setAccountingInfo(bodyData, "Pinco pallino", "20210101", "20231231");
+
+
+
+        // Set account plan
+
+        // Set accounting info
+
+        let accountingAccountsTableDocChange = {
+
+            "document": {
+
+                "fileVersion": "1.0.0",
+
+                "creator": {
+
+                    "name": "FinancialPlaWriter",
+
+                    "version": "1.0.0"
+
+                },
+
+                "dataUnits": [
+
+                    {
+
+                        "nameXml": "Accounts",
+
+                        "data": {
+
+                            "rowLists": [
+
+                                {
+
+                                    "rows": [
+
+                                        // defined aftewards
+
+                                    ]
+
+                                }
+
+                            ]
+
+                        }
+
+                    }
+
+                ]
+
+            }
+
+        };
+
+
+
+        // Define accounts
+
+        // See https://www.banana.ch/doc/en/node/9641#properties_of_dataunits
+
+        accountingAccountsTableDocChange.document.dataUnits[0].data.rowLists[0].rows.push(
+
+            {
+
+                "fields": {
+
+                    "Account": "1000",
+
+                    "Description": "Liquidity",
+
+                    "Opening": "300",
+
+                    "BClass": "1"
+
+                },
+
+                "operation": {
+
+                    "name": "add"
+
+                }
+
+            }
+
+        );
+
+
+
+        accountingAccountsTableDocChange.document.dataUnits[0].data.rowLists[0].rows.push(
+
+            {
+
+                "fields": {
+
+                    "Account": "3000",
+
+                    "Description": "Sales",
+
+                    "BClass": "4"
+
+                },
+
+                "operation": {
+
+                    "name": "add"
+
+                }
+
+            }
+
+        );
+
+
+
+        // Aggiungi conto dinaminacamente in base alla selezione dell'utente
+
+        // if (xyz) {
+
+        //     accountingAccountsTableDocChange.document.dataUnits[0].data.rowLists[0].rows.push(
+
+        //         {
+
+        //             "fields": {
+
+        //                 "Account": "3200",
+
+        //                 "Description": "Conto xyz",
+
+        //                 "BClass": "4"
+
+        //             },
+
+        //             "operation": {
+
+        //                 "name": "add"
+
+        //             }
+
+        //         }
+
+        //     );
+
+        // }
+
+
+
+        documentChange.data.push(accountingAccountsTableDocChange);
+
+
+
+        // Set budget transactions
+
+        documentChange.data.push(
+
+            {
+
+                "document": {
+
+                    "fileVersion": "1.0.0",
+
+                    "creator": {
+
+                        "name": "FinancialPlaWriter",
+
+                        "version": "1.0.0"
+
+                    },
+
+                    "dataUnits": [
+
+                        {
+
+                            "nameXml": "Budget",
+
+                            "data": {
+
+                                "rowLists": [
+
+                                    {
+
+                                        "rows": [
+
+                                            {
+
+                                                "fields": {
+
+                                                    "Date": "2021-01-31",
+
+                                                    "Repeat": "M",
+
+                                                    "Description": "Total montly sales",
+
+                                                    "AccountDebit": "1000",
+
+                                                    "AccountCredit": "3000",
+
+                                                    "Amount": "2000.00"
+
+                                                },
+
+                                                "operation": {
+
+                                                    "name": "add"
+
+                                                }
+
+                                            }
+
+                                        ]
+
+                                    }
+
+                                ]
+
+                            }
+
+                        }
+
+                    ]
+
+                }
+
+            }
+
+        );
+
+
+
+        // Script to be executed on the accounting by Banana
+
+        // See https://www.banana.ch/doc/en/node/4714
+
+        let commnadScript = function (param) {
+
+            var result = {};
+
+            // Banana.document.budgetBalances see See https://www.banana.ch/doc/en/node/7711
+
+            result.liquidity = Banana.document.endPeriod();
+
+            // Banana.console.log see https://www.banana.ch/doc/en/node/8370
+
+            Banana.console.log("Calculated value:" + result.liquidity);
+
+            return JSON.stringify(result);
+
+
+
+            // var financialPlanData = {};
+
+            // financialPlanData.budgetBalances = {};
+
+            // financialPlanData.budgetBalances["BClass=3|4"] = Banana.document.budgetBalances("BClass=3|4", "Y");
+
+            // financialPlanData.budgetBalances["1000"] = Banana.document.budgetBalances("1000", "Y");
+
+            // financialPlanData.budgetBalances["3000"] = Banana.document.budgetBalances("3000", "Y");
+
+            // return JSON.stringify(financialPlanData);
+
+        };
+
+
+
+        // Prepare script to be inserted in the command property
+
+        // Stringify it and rename the function to be 'exec(param)'
+
+        let commandJsonScript = commnadScript.toString();
+
+        commandJsonScript = commandJsonScript.replace(/function *\(param\)/, "function exec(param)");
+
+        bodyData.command.code = commandJsonScript;
+
+
+
+        console.log(JSON.stringify(bodyData, null, '   '));
+
+
+
+        let response = await fetch('http://localhost:8081/v1/doc?show', {
+
+            method: 'POST', // or 'PUT'
+
+            headers: {
+
+                'Content-Type': 'application/json',
+
+            },
+
+            body: JSON.stringify(bodyData),
+
+        })
+
+
+
+        let text = await response.text(); // read response body as text
+
+
+
+        console.log(JSON.parse(text));
+
+
+
+        // Parse response and extract some values
+
+        let jsonObj = JSON.parse(text);
+
+        let outValue = 'Liquidity balance: ' + jsonObj.liquidity;
+
+        //let outValue = 'Balance of account 1000: ' + jsonObj['budgetBalances']['1000'][0]['balance'];
+
+
+
+        document.querySelector("#decoded").innerHTML = outValue;
+
+        document.querySelector("#liquidity").innerHTML = jsonObj.liquidity;
+
+    };
+
+</script>
+
+
+
+</html>
